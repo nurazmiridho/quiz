@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script type="text/javascript" src="style.js"></script>
+    <title>Quiz!</title>
+    <style>
+        html{
+            background-color: chartreuse;
+            position: center;
+        }
+        
+        .hidden{
+            display: none;
+        }
+
+        input[type="radio"]{
+            visibility: hidden;
+        }
+
+        input[type="radio"]:checked+label{
+            text-decoration: underline;border: hotpink;position: center;
+        }
+
+        .js{
+            border: rgb(155, 42, 236);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="opening_window">
+        <h1>Selamat bermain!</h1>
+        <button onclick="startQuiz()">Start Quiz</button>
+        
+    </div>
+
+    <div id="quiz_window" class="hidden">
+
+        <h1 id="question"></h1>
+        
+        <input type="radio" name="choices" data-id="0" id="choice0">
+        <label for="choice0" id="choiceText0"></label>
+
+        <input type="radio" name="choices" data-id="1" id="choice1">
+        <label for="choice1" id="choiceText1"></label>
+
+        <input type="radio" name="choices" data-id="2" id="choice2">
+        <label for="choice2" id="choiceText2"></label>
+
+        <input type="radio" name="choices" data-id="3" id="choice3">
+        <label for="choice3" id="choiceText3"></label>
+
+        <button onclick="nextQuestion()">Next</button>
+        
+    </div>
+    <div id="closing_window" class="hidden">
+        <h1>GAME OVER</h1>
+        <h2 id="scoreText"></h2>
+    </div>
+
+    <div id="tampilan">
+    <script >
+        const  DB_QUIZ = [
+            //===DATA===//
+            {
+                question: "Minum Menggunakan?",
+                answer: ['gelas','mulut','tangan','mata']
+            },
+            {
+                question: "makan menggunakan?",
+                answer: ['piring','mulut','tangan','sendok']
+            },
+            {
+                question: "bernafas Menggunakan?",
+                answer: ['hidung','mulut','oksigen','paru-paru'],
+            }
+            
+        ]
+
+        const CORRECT_ANSWER = [0,3,0]
+
+        //setup function
+
+        function startQuiz(){
+            document.getElementById('opening_window').style.display = "none"
+            document.getElementById('quiz_window').style.display = "block"
+        }
+
+        let current_q = 0
+        let total_score = 0
+        let saved_answer = []
+
+        document.addEventListener('DOMContentLoaded',function(event){
+            setupQuestion()
+        });
+
+        function setupQuestion(){
+            
+            document.getElementById('question').innerText = DB_QUIZ[current_q]['question']
+            document.getElementById('choiceText0').innerText = DB_QUIZ[current_q]['answer'][0]
+            document.getElementById('choiceText1').innerText = DB_QUIZ[current_q]['answer'][1]
+            document.getElementById('choiceText2').innerText = DB_QUIZ[current_q]['answer'][2]
+            document.getElementById('choiceText3').innerText = DB_QUIZ[current_q]['answer'][3]
+        }
+
+        function nextQuestion(){
+
+            current_q++
+
+            saveAnswer()
+
+            if(current_q > DB_QUIZ.length - 1)
+                stopQuiz()
+
+            resetState()
+
+            setupQuestion()
+        }
+
+        function resetState(){
+            document.querySelector('input[name="choices"]:checked').checked = false
+        }
+
+        function stopQuiz(){
+
+            checkScore()
+            
+            document.getElementById('quiz_window').style.display = "none"
+            document.getElementById('closing_window').style.display = "block"
+
+            document.getElementById('scoreText').innerHTML = "Score kamu   " + total_score
+            return
+        }
+
+        function saveAnswer(){
+            const answer = document.querySelector('input[name="choices"]:checked');
+            if(answer != null) {
+                saved_answer.push(parseInt(answer.getAttribute('data-id')))
+                
+            }else{
+                saved_answer.push(0)
+            }
+        }
+
+        function checkScore(){
+            for(i = 0; i < saved_answer.length; i++){
+               if(saved_answer[i]==CORRECT_ANSWER[i])
+                    total_score += 100
+
+                
+            }
+        }
+        
+    </script>
+<div/> 
+</body>
+</html>

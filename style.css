@@ -1,0 +1,23 @@
+
+h1{
+    color: rgb(64, 6, 199);
+    text-align: center;
+    
+}
+
+#opening_window{
+    text-align: center;
+    color: deeppink;
+}
+#tampilan{
+    text-align: center;
+}
+script{
+    text-align: center;
+}
+button{
+    color: rgb(241, 242, 247);
+    background: rgb(243, 43, 8);
+    border: navy;
+    border-style:solid;
+}
