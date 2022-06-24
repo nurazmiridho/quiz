@@ -1,2 +1,2 @@
 # quiz
-yametekudasai
+yahaha wahyu pake emot
